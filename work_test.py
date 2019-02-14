@@ -63,8 +63,41 @@ with open('akom.json') as json_data_file:
 
 print(data['metrics'])
 print(data['metrics'][meas])
+print(data['metrics'][meas]['kirill-VB and cpu0']['tags'])
 # for item in data['metrics']:
 #     if item == meas:
+# tags = ''
+# for item in data['metrics'][meas]:
+#     for i in range(0, len(data['metrics'][meas][item]['tags']) - 1):
+#         tags = tags + data['metrics'][meas][item]['tags'][i]
+#         print(tags)
+
+#     print(data['metrics'][meas][item]['tags'])
+#
+#     print(data['metrics'][meas][item]['values'])
+#
+# for item in data['metrics'][meas]:
+#     for value in data['metrics'][meas][item]['values']:
+#         for tag in data['metrics'][meas][item]['tags']:
+#             select = 'SELECT ' + value + ' form ' + meas + ' where ' + tag
+#             print(select)
 for item in data['metrics'][meas]:
-    print(data['metrics'][meas][item]['tags'])
-    print(data['metrics'][meas][item]['values'])
+	tag_list = []
+	tag_srt = ''
+	for k,v in data['metrics'][meas][item]['tags'].items():
+		tag_list.append(k + '=' + v)
+	if len(tag_list) > 1:
+		tag_srt = tag_list[0]
+		for i in range(1, len(tag_list)):
+			tag_srt = tag_srt + ' AND ' + tag_list[i]
+	elif len(tag_list) == 1:
+		tag_srt = tag_list[0]
+
+	value_str = ''
+	value_list = data['metrics'][meas][item]['values']
+	if len(value_list) > 1:
+		value_str = value_list[0]
+		for i in range(1, len(value_list)):
+			value_str = value_str + ', ' + value_list[i]
+	print('SELECT ' + value_str + ' FROM ' + meas + ' WHERE ' + tag_srt)
+	print('SELECT LAST(' + value_str + ') FROM ' + meas + ' WHERE ' + tag_srt)

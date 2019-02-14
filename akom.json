@@ -21,22 +21,22 @@
       "kirill-VB and cpu0": {
         "tags": {
           "host": "kirill-VB",
-          "cpu": "cpu0"
+          "cpu": "cpu0",
+          "mem": "mem3"
         },
         "values": [
           "usage_system",
           "usage_guest"
         ]
-        }
-      },
+        },
       "kirill-VB and cpu-total": {
         "tags": {
           "host": "kirill-VB",
           "cpu": "cpu-total"
         },
         "values": [
-          "usage_system",
-          "usage_guest"
+          "usage_system1",
+          "usage_guest1"
         ]
       }
     },
@@ -45,5 +45,6 @@
         "host": "kirill-VB",
         "device": "sda1"
       }
+  	}
   }
 }
