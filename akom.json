@@ -1,0 +1,49 @@
+{
+  "site_name": "akom",
+  "allow_create_local_db": "yes",
+
+  "remote_influx": {
+    "dbname": "telegraf",
+    "dbhost": "10.200.12.169",
+    "dbport": "8086",
+    "dbuser": "telegraf",
+    "dbpass": "metricsmetricsmetricsmetrics"
+  },
+  "local_influx": {
+    "dbname": "telegraf_test1",
+    "dbhost": "10.200.12.169",
+    "dbport": "8086",
+    "dbuser": "telegraf",
+    "dbpass": "metricsmetricsmetricsmetrics"
+  },
+  "metrics": {
+    "cpu": {
+      "kirill-VB and cpu0": {
+        "tags": {
+          "host": "kirill-VB",
+          "cpu": "cpu0"
+        },
+        "values": [
+          "usage_system",
+          "usage_guest"
+        ]
+        }
+      },
+      "kirill-VB and cpu-total": {
+        "tags": {
+          "host": "kirill-VB",
+          "cpu": "cpu-total"
+        },
+        "values": [
+          "usage_system",
+          "usage_guest"
+        ]
+      }
+    },
+    "disk": {
+      "tags": {
+        "host": "kirill-VB",
+        "device": "sda1"
+      }
+  }
+}
