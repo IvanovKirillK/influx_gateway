@@ -9,8 +9,9 @@ def check_file_exists(full_name):
         handler = open(full_name, 'r')
         handler.close()
         return True
-    except FileNotFoundError as e:
+    except (FileNotFoundError, Exception) as e:
         print('File ' + full_name + ' not found', e)
+        return False
 
 
 def check_db_exists(dbname, dbhost, dbport, dbuser, dbpass, logger):
