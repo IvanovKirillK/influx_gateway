@@ -1,7 +1,6 @@
 import sys
 import logging
 import tasks
-import json
 from python_json_config import ConfigBuilder
 
 # define path to config file
@@ -125,7 +124,8 @@ for measurement in measurements_list:
     # for every metric getting the last time it was stored in local DB
     for metric in metrics_list:
         logger.info('getting last time metric ' + metric + ' was callected')
-        last_time = tasks.get_last_value_for_metric(measurement, metric, local_dbname, local_dbhost, local_dbport, local_dbuser, local_dbpass, logger)
+        last_time = tasks.get_last_value_for_metric(measurement, metric, local_dbname, local_dbhost, local_dbport,
+                                                    local_dbuser, local_dbpass, logger)
         if last_time == 'No Connect':
             logger.error('No connection to local DB')
             sys.exit(0)
@@ -135,21 +135,24 @@ for measurement in measurements_list:
                 logger.info('getting all data for metric ' + metric + ' from remote DB')
             else:
                 logger.info('getting data for metric ' + metric + ' from remote DB starting from ' + last_time)
-            # collectin data points
+            # collection data points
             data_points = tasks.get_data_points(measurement, metric, tags_list, last_time, remote_dbname, remote_dbhost,
                                                 remote_dbport, remote_dbuser, remote_dbpass, logger)
             if len(data_points) == 0:
                 logger.info(
                     'Data set for measurement ' + measurement + ' metric ' + metric + ' contains no data in remote DB')
             else:
-                logger.info('Data set for measurement ' + measurement + ' metric ' + metric + ' collected form remote DB')
+                logger.info('Data set for measurement ' + measurement + ' metric ' + metric +
+                            ' collected form remote DB')
                 #gather all data points for specified metric
                 data_points_to_write = []
                 for point in data_points:
                     data_points_to_write.append(tasks.make_data_point(point,tags_list, measurement, metric, logger))
                 logger.info(
-                    'Data set for measurement ' + measurement + ' metric ' + metric + ' are ready to be writen to local DB')
-                tasks.write_data_to_db(data_points_to_write,local_dbname, local_dbhost, local_dbport, local_dbuser, local_dbpass, logger)
+                    'Data set for measurement ' + measurement + ' metric ' + metric +
+                    ' are ready to be writen to local DB')
+                tasks.write_data_to_db(data_points_to_write,local_dbname, local_dbhost, local_dbport, local_dbuser,
+                                       local_dbpass, logger)
                 logger.info(
                     'Data set for measurement ' + measurement + ' metric ' + metric + ' was writen to local DB')
 
