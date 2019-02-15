@@ -4,14 +4,14 @@
 
   "remote_influx": {
     "dbname": "telegraf",
-    "dbhost": "10.200.12.169",
+    "dbhost": "localhost",
     "dbport": "8086",
     "dbuser": "telegraf",
     "dbpass": "metricsmetricsmetricsmetrics"
   },
   "local_influx": {
     "dbname": "telegraf",
-    "dbhost": "10.200.12.169",
+    "dbhost": "localhost",
     "dbport": "8090",
     "dbuser": "telegraf",
     "dbpass": "metricsmetricsmetricsmetrics"
