@@ -10,40 +10,40 @@
     "dbpass": "metricsmetricsmetricsmetrics"
   },
   "local_influx": {
-    "dbname": "telegraf_test1",
+    "dbname": "telegraf",
     "dbhost": "10.200.12.169",
-    "dbport": "8086",
+    "dbport": "8090",
     "dbuser": "telegraf",
     "dbpass": "metricsmetricsmetricsmetrics"
   },
   "metrics": {
     "cpu": {
-      "kirill-VB and cpu0": {
-        "tags": {
-          "host": "kirill-VB",
-          "cpu": "cpu0",
-          "mem": "mem3"
-        },
+      "usage system and guest pre host and cpu": {
+        "tags": [
+          "host",
+          "cpu"
+        ],
         "values": [
           "usage_system",
-          "usage_guest"
+          "usage_guest",
+          "usage_idle"
         ]
-        },
-      "kirill-VB and cpu-total": {
-        "tags": {
-          "host": "kirill-VB",
-          "cpu": "cpu-total"
-        },
-        "values": [
-          "usage_system1",
-          "usage_guest1"
-        ]
-      }
+        }
     },
     "disk": {
-      "tags": {
-        "host": "kirill-VB",
-        "device": "sda1"
+      "value 1, value 2 per host and device": {
+        "tags": [
+          "host",
+          "device",
+          "fstype",
+          "mode",
+          "path"
+        ],
+        "values": [
+          "free",
+          "total",
+          "used"
+        ]
       }
   	}
   }

@@ -3,6 +3,7 @@ import requests
 import urllib3
 import json
 
+
 def check_file_exists(full_name):
     try:
         handler = open(full_name, 'r')
@@ -31,7 +32,7 @@ def check_db_exists(dbname, dbhost, dbport, dbuser, dbpass, logger):
             logger.error('No DB with name ' + dbname + ' on server ' + dbhost)
             return False
     except Exception as e:
-        logger.error('something went wrong ', e)
+        logger.error('something went wrong ', str(e))
 
 
 def create_db(dbname, dbhost, dbport, dbuser, dbpass, logger):
@@ -45,7 +46,7 @@ def create_db(dbname, dbhost, dbport, dbuser, dbpass, logger):
             return 'No Connect'
         check_db_exists(dbname, dbhost, dbport, dbuser, dbpass, logger)
     except Exception as e:
-        logger.error('something went wrong ', e)
+        logger.error('something went wrong ', str(e))
 
 
 def get_metrics_list(config_file, logger):
@@ -95,19 +96,117 @@ def check_metrics_in_db(metrics_list, dbname, dbhost, dbport, dbuser, dbpass, lo
             elif len(items_not_found) > 0:
                 return items_not_found
     except Exception as e:
-        logger.error('something went wrong ', e)
+        logger.error('something went wrong ', str(e))
 
 
-def get_tags_by_measurement(measurement, config_file, logger):
+def get_values_per_measurement(measurement, config_file, logger):
     with open(config_file) as json_file:
         data = json.load(json_file)
-    print(data)
-    metrics_list = []
-    for item in data['metrics']:
-        metrics_list.append(item)
-    if len(metrics_list) == 0:
-        logger.error('no metrics found in config file ' + config_file)
-        return False
-    else:
-        logger.info('got following metrics:' + str(metrics_list))
+        metrics_list = []
+        for metric in data['metrics'][measurement]:
+            for value in data['metrics'][measurement][metric]['values']:
+                metrics_list.append(value)
         return metrics_list
+
+
+def get_tags_per_measurement(measurement, config_file, logger):
+    with open(config_file) as json_file:
+        data = json.load(json_file)
+        tags_list = []
+        for metric in data['metrics'][measurement]:
+            for tag in data['metrics'][measurement][metric]['tags']:
+                tags_list.append(tag)
+        return tags_list
+
+
+def get_last_value_for_metric(measurement, metric, dbname, dbhost, dbport, dbuser, dbpass, logger):
+    try:
+        client = InfluxDBClient(dbhost, dbport, dbuser, dbpass, dbname)
+        try:
+            last_time = client.query('SELECT LAST(' + metric + ') FROM ' + measurement)
+        except (requests.ConnectionError, urllib3.exceptions.MaxRetryError, urllib3.exceptions.NewConnectionError) as e:
+            logger.error('Could net connect to server ' + dbhost)
+            return 'No Connect'
+        if str(last_time) == 'ResultSet({})':
+            logger.info('No data for metric ' + metric + ' in local DB')
+            return False
+        else:
+            for point in last_time.get_points():
+                logger.info('Last data for metric ' + metric + ' in local DB is ' + point['time'])
+                return(point['time'])
+    except Exception as e:
+        logger.error('something went wrong ', str(e))
+
+
+def get_data_points(measurement, metric, tags, time, dbname, dbhost, dbport, dbuser, dbpass, logger):
+    try:
+        tag_str = ''
+        if len(tags) > 0:
+            for tag in tags:
+                tag_str = tag_str + ',' + tag
+        client = InfluxDBClient(dbhost, dbport, dbuser, dbpass, dbname)
+        if time is False:
+            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement)
+        elif len(time) > 0 and time != 'No Connect':
+            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' WHERE time >= ' + "'" + time + "'")
+        else:
+            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement)
+        try:
+            data_points = client.query(query_string)
+        except (requests.ConnectionError, urllib3.exceptions.MaxRetryError, urllib3.exceptions.NewConnectionError) as e:
+            logger.error('Could net connect to server ' + dbhost)
+            return 'No Connect'
+        if str(data_points) == 'ResultSet({})':
+            logger.info('No data for metric ' + metric + ' in remote DB')
+            return False
+        else:
+            data_set = []
+            for point in data_points.get_points():
+                data_set.append(point)
+            logger.info('Data points for metric ' + metric + ' was collected from remote DB')
+            return data_set
+    except Exception as e:
+        logger.error('something went wrong ', str(e))
+
+
+def make_data_point(data_point, tag_list, measurement, metric, logger):
+    try:
+        data_point_to_write = []
+        data_to_write = {}
+        tags_v = {}
+        time_v = ''
+        metric_v = {}
+
+        for item in data_point:
+            if item == 'time':
+                time_v = data_point[item]
+            elif item == metric:
+                metric_v[item] = float(data_point[item])
+            elif item in tag_list:
+                    tags_v[item] = data_point[item]
+
+        data_to_write['measurement'] = measurement
+        data_to_write['tags'] = tags_v
+        data_to_write['time'] = time_v
+        data_to_write['fields'] = metric_v
+
+        data_point_to_write.append(data_to_write)
+
+        return data_to_write
+    except Exception as e:
+        logger.error('something went wrong ', str(e))
+
+
+def write_data_to_db(data_point, dbname, dbhost, dbport, dbuser, dbpass, logger):
+    try:
+        client = InfluxDBClient(dbhost, dbport, dbuser, dbpass, dbname)
+        try:
+            client.write_points(data_point)
+        except (requests.ConnectionError, urllib3.exceptions.MaxRetryError, urllib3.exceptions.NewConnectionError) as e:
+            logger.error('Could net connect to server ' + dbhost)
+            return 'No Connect'
+    except Exception as e:
+        logger.error('something went wrong ', str(e))
+
+
+
