@@ -26,6 +26,7 @@ before_install:
   - docker-compose build
   - docker-compose up -d
   - travis_wait 20 docker ps -a
+  - curl -G http://127.0.0.1:8090/query -u telegraf:telegraf --data-urlencode "q=CREATE DATABASES test_db"
 
 install:
   - pip install -r requirements.txt

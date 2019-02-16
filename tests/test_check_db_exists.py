@@ -20,4 +20,4 @@ def test_db_does_not_exist_case():
 
 
 def test_db_does_exist_case():
-    assert check_db_exists('telegraf', '127.0.0.1', '8090', 'telegraf', 'telegraf', logger) is True
+    assert check_db_exists('test_db', '127.0.0.1', '8090', 'telegraf', 'telegraf', logger) is True
