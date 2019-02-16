@@ -5,9 +5,10 @@ import logging
 
 logger = logging.getLogger('testlog')
 
+
 def test_no_connection_case():
     with pytest.raises(AttributeError):
-        check_db_exists('telegraf', 'localhost', '8090', 'telegraf', 'telegraf', logger)
+        check_db_exists('telegraf', 'localhost', '8080', 'telegraf', 'telegraf', logger)
 
 
 def test_no_data_to_connect_case():
