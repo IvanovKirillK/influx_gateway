@@ -25,3 +25,5 @@ services:
       - ./config/telegraf/:/etc/telegraf/
     depends_on:
       - influxdb_remote
+    links:
+      - "influxdb_remote:influxdb_remote"
