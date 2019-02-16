@@ -1,4 +1,4 @@
-from ..tasks import check_file_exists
+from tasks import check_file_exists
 import pytest
 
 

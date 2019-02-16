@@ -1,4 +1,4 @@
-from ..tasks import check_db_exists
+from tasks import check_db_exists
 import pytest
 
 
