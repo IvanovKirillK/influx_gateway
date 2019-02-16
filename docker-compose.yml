@@ -17,13 +17,13 @@ services:
       - "8094:8088"
     volumes:
       - ./config/influxdb_remote:/etc/influxdb/
+    depends_on:
+      - telegraf
 
   telegraf:
     container_name: telegraf
     image: telegraf:latest
     volumes:
       - ./config/telegraf/:/etc/telegraf/
-    depends_on:
-      - influxdb_remote
     links:
       - "influxdb_remote:influxdb_remote"
