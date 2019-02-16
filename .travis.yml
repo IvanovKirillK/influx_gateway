@@ -8,7 +8,7 @@ python:
   - "3.6"
 
 env:
-COMPOSE_VERSION: 1.23.1
+  COMPOSE_VERSION: 1.17.1
 
 before_install:
   # Docker Compose Install
@@ -22,6 +22,7 @@ before_install:
   # CommandBox Keys
   - sudo apt-key adv --keyserver keys.gnupg.net --recv 6DA70622
   - sudo echo "deb http://downloads.ortussolutions.com/debs/noarch /" | sudo tee -a  /etc/apt/sources.list.d/commandbox.list
+  - docker-compose -version
   - docker-compose build
   - docker-compose up -d
 
