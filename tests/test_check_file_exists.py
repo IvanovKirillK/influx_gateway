@@ -3,7 +3,7 @@ import pytest
 
 
 def test_check_file_exists_case():
-    assert check_file_exists('..\\akom.json') is True
+    assert check_file_exists('akom.json') is True
 
 
 def test_check_file_does_not_exists_case():
