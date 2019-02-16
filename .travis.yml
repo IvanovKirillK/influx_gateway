@@ -1,22 +1,29 @@
 language: python
 sudo: required
 dist: trusty
+services:
+  - docker
 
 python:
-   - "3.6"
+  - "3.6"
+
+env:
+COMPOSE_VERSION: 1.23.1
 
 before_install:
-  - curl -sSL "https://get.docker.com/gpg" | sudo -E apt-key add -
-  - echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee -a /etc/apt/sources.list
-  - sudo apt-get update
-  - sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --assume-yes install docker-engine
-  - docker version
-  - sudo pip install docker-compose
-  - docker-compose version
-  - docker-compose pull
+  # Docker Compose Install
+  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  # Download and install Docker libs
+  - curl -L https://github.com/Ortus-Solutions/docker-buildfiles/archive/master.zip > docker.zip
+  - unzip docker.zip -d workbench
+  - mv workbench/docker-buildfiles-master workbench/docker
+  # CommandBox Keys
+  - sudo apt-key adv --keyserver keys.gnupg.net --recv 6DA70622
+  - sudo echo "deb http://downloads.ortussolutions.com/debs/noarch /" | sudo tee -a  /etc/apt/sources.list.d/commandbox.list
   - docker-compose build
-  - docker-compose start
-  - docker ps
+  - docker-compose up -d
 
 install:
   - pip install -r requirements.txt
