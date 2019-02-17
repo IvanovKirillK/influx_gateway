@@ -19,8 +19,8 @@ def create_db():
 def create_db_with_measurments():
     client = InfluxDBClient('127.0.0.1', '8086', 'telegraf', 'telegraf', 'telegraf')
     client.create_database('telegraf')
-    client.write(['cpu,host=serverA value=10'], {'db': 'teleraf'}, 204, 'line')
-    client.write(['disk,host=serverA value=10'], {'db': 'teleraf'}, 204, 'line')
+    client.write(['cpu,host=serverA value=10'], {'db': 'telegraf'}, 204, 'line')
+    client.write(['disk,host=serverA value=10'], {'db': 'telegraf'}, 204, 'line')
     yield client
     client.drop_database('telegraf')
 
