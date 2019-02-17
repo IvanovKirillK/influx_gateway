@@ -150,6 +150,7 @@ def get_last_value_for_metric(measurement, metric, dbname, dbhost, dbport, dbuse
                 return(point['time'])
     except Exception as e:
         logger.error('something went wrong ', str(e))
+        return False
 
 
 def get_data_points(measurement, metric, tags, time, dbname, dbhost, dbport, dbuser, dbpass, logger):
