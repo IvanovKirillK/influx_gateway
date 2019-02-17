@@ -54,14 +54,18 @@ def get_metrics_list(config_file, logger):
     with open(config_file) as json_file:
         data = json.load(json_file)
     metrics_list = []
-    for item in data['metrics']:
-        metrics_list.append(item)
-    if len(metrics_list) == 0:
-        logger.error('no metrics found in config file ' + config_file)
+    try:
+        for item in data['metrics']:
+            metrics_list.append(item)
+        if len(metrics_list) == 0:
+            logger.error('no metrics found in config file ' + config_file)
+            return False
+        else:
+            logger.info('got following metrics:' + str(metrics_list))
+            return metrics_list
+    except Exception as e:
+        logger.error('something went wrong ', str(e))
         return False
-    else:
-        logger.info('got following metrics:' + str(metrics_list))
-        return metrics_list
 
 
 def check_metrics_in_db(metrics_list, dbname, dbhost, dbport, dbuser, dbpass, logger):
