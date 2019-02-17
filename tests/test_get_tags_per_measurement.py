@@ -27,4 +27,4 @@ def test_no_metrics_for_measurement_in_config_case():
 def test_metrics_present_in_config_case():
     config_file = 'config/influx_gateway/metrics_present.json'
     measurement = 'cpu'
-    assert get_tags_per_measurement(measurement, config_file, logger) == ['cpu', 'host']
+    assert get_tags_per_measurement(measurement, config_file, logger) == ['host', 'cpu']
