@@ -123,10 +123,14 @@ def get_tags_per_measurement(measurement, config_file, logger):
     with open(config_file) as json_file:
         data = json.load(json_file)
         tags_list = []
-        for metric in data['metrics'][measurement]:
-            for tag in data['metrics'][measurement][metric]['tags']:
-                tags_list.append(tag)
-        return tags_list
+        try:
+            for metric in data['metrics'][measurement]:
+                for tag in data['metrics'][measurement][metric]['tags']:
+                    tags_list.append(tag)
+            return tags_list
+        except Exception as e:
+            logger.error('something went wrong ', str(e))
+            return False
 
 
 def get_last_value_for_metric(measurement, metric, dbname, dbhost, dbport, dbuser, dbpass, logger):
