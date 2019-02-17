@@ -45,7 +45,7 @@ def create_db(dbname, dbhost, dbport, dbuser, dbpass, logger):
         except(requests.ConnectionError, urllib3.exceptions.MaxRetryError, urllib3.exceptions.NewConnectionError) as e:
             logger.error('Could net connect to server ' + dbhost)
             return 'No Connect'
-        check_db_exists(dbname, dbhost, dbport, dbuser, dbpass, logger)
+        return (check_db_exists(dbname, dbhost, dbport, dbuser, dbpass, logger))
     except Exception as e:
         logger.error('something went wrong ', str(e))
 
