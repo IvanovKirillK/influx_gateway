@@ -34,7 +34,7 @@ install:
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - curl -X POST http://127.0.0.1:8090/query -u telegraf:telegraf --data-urlencode "q=CREATE DATABASE test_db"
-  - ls -la config\influx_gateway\
+  - ls -la config/influx_gateway/
 
 script:
   - pytest
