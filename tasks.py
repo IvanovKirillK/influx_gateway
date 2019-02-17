@@ -78,6 +78,7 @@ def check_metrics_in_db(metrics_list, dbname, dbhost, dbport, dbuser, dbpass, lo
             logger.info('No measurements found in DB ' + dbname + ' on host ' + dbhost)
             for item in metrics_list:
                 items_not_found.append(item)
+            return items_not_found
         else:
             for item in metrics_list:
                 for meas in db_measurements:
