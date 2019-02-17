@@ -109,10 +109,14 @@ def get_values_per_measurement(measurement, config_file, logger):
     with open(config_file) as json_file:
         data = json.load(json_file)
         metrics_list = []
-        for metric in data['metrics'][measurement]:
-            for value in data['metrics'][measurement][metric]['values']:
-                metrics_list.append(value)
-        return metrics_list
+        try:
+            for metric in data['metrics'][measurement]:
+                for value in data['metrics'][measurement][metric]['values']:
+                    metrics_list.append(value)
+            return metrics_list
+        except Exception as e:
+            logger.error('something went wrong ', str(e))
+            return False
 
 
 def get_tags_per_measurement(measurement, config_file, logger):

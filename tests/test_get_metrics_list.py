@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger('testlog')
 
 
-def test_no_metrics_in_config_cse():
+def test_no_metrics_in_config_case():
     config_file = 'config/influx_gateway/no_metrics.json'
     assert get_metrics_list(config_file, logger) is False
 

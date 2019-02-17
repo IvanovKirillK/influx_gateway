@@ -1,0 +1,31 @@
+{
+  "site_name": "akom",
+  "allow_create_local_db": "yes",
+
+  "remote_influx": {
+    "dbname": "telegraf",
+    "dbhost": "localhost",
+    "dbport": "8086",
+    "dbuser": "telegraf",
+    "dbpass": "metricsmetricsmetricsmetrics"
+  },
+  "local_influx": {
+    "dbname": "telegraf",
+    "dbhost": "localhost",
+    "dbport": "8090",
+    "dbuser": "telegraf",
+    "dbpass": "metricsmetricsmetricsmetrics"
+  },
+  "metrics": {
+    "cpu": {
+      "usage system and guest pre host and cpu": {
+        "tags": [
+          "host",
+          "cpu"
+        ],
+        "values": [
+        ]
+      }
+    }
+  }
+}
