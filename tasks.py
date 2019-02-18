@@ -161,11 +161,11 @@ def get_data_points(measurement, metric, tags, time, dbname, dbhost, dbport, dbu
                 tag_str = tag_str + ',' + tag
         client = InfluxDBClient(dbhost, dbport, dbuser, dbpass, dbname)
         if time is False:
-            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' LIMIT 1000')
+            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' LIMIT 10000')
         elif len(time) > 0 and time != 'No Connect':
-            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' WHERE time >= ' + "'" + time + "'")
+            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' WHERE time >= ' + "'" + time + "'" + ' LIMIT 10000')
         else:
-            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement)
+            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' LIMIT 10000')
         try:
             data_points = client.query(query_string)
         except (requests.ConnectionError, urllib3.exceptions.MaxRetryError, urllib3.exceptions.NewConnectionError) as e:
