@@ -18,7 +18,7 @@ logger = logging.getLogger(config.site_name)
 logger.setLevel(logging.DEBUG)
 
 # create file handler which logs messages
-fh = logging.FileHandler(config.site_name + '.log')
+fh = logging.FileHandler(config.logpath + config.site_name + '.log')
 fh.setLevel(logging.DEBUG)
 
 # create console handler
