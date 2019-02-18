@@ -138,7 +138,10 @@ for measurement in measurements_list:
             # collection data points
             data_points = tasks.get_data_points(measurement, metric, tags_list, last_time, remote_dbname, remote_dbhost,
                                                 remote_dbport, remote_dbuser, remote_dbpass, logger)
-            if (len(data_points) == 0 or data_points is False):
+            if data_points is False:
+                logger.info(
+                    'Data set for measurement ' + measurement + ' metric ' + metric + ' contains no data in remote DB')
+            elif len(data_points) == 0:
                 logger.info(
                     'Data set for measurement ' + measurement + ' metric ' + metric + ' contains no data in remote DB')
             else:
