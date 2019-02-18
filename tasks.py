@@ -196,7 +196,10 @@ def make_data_point(data_point, tag_list, measurement, metric, logger):
             if item == 'time':
                 time_v = data_point[item]
             elif item == metric:
-                metric_v[item] = float(data_point[item])
+                try:
+                    metric_v[item] = float(data_point[item])
+                except TypeError:
+                    metric_v[item] = str(data_point[item])
             elif item in tag_list:
                     tags_v[item] = data_point[item]
 
