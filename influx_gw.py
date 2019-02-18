@@ -138,13 +138,13 @@ for measurement in measurements_list:
             # collection data points
             data_points = tasks.get_data_points(measurement, metric, tags_list, last_time, remote_dbname, remote_dbhost,
                                                 remote_dbport, remote_dbuser, remote_dbpass, logger)
-            if len(data_points) == 0:
+            if (len(data_points) == 0 or data_points is False):
                 logger.info(
                     'Data set for measurement ' + measurement + ' metric ' + metric + ' contains no data in remote DB')
             else:
                 logger.info('Data set for measurement ' + measurement + ' metric ' + metric +
                             ' collected form remote DB')
-                #gather all data points for specified metric
+                # gather all data points for specified metric
                 data_points_to_write = []
                 for point in data_points:
                     data_points_to_write.append(tasks.make_data_point(point,tags_list, measurement, metric, logger))
