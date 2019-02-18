@@ -1,5 +1,4 @@
 from tasks import get_tags_per_measurement
-import pytest
 import logging
 
 

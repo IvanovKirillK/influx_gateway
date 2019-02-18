@@ -1,5 +1,4 @@
 from tasks import get_metrics_list
-import pytest
 import logging
 
 

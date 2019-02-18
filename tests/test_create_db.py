@@ -1,5 +1,4 @@
 from tasks import create_db
-import pytest
 import logging
 
 
