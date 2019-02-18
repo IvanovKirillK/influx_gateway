@@ -161,7 +161,7 @@ def get_data_points(measurement, metric, tags, time, dbname, dbhost, dbport, dbu
                 tag_str = tag_str + ',' + tag
         client = InfluxDBClient(dbhost, dbport, dbuser, dbpass, dbname)
         if time is False:
-            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement)
+            query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' LIMIT 1000')
         elif len(time) > 0 and time != 'No Connect':
             query_string = ('SELECT ' + metric + tag_str + ' FROM ' + measurement + ' WHERE time >= ' + "'" + time + "'")
         else:
