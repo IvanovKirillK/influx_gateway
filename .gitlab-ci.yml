@@ -1,5 +1,49 @@
-image: python:3.6
-job1:
+stages:
+  - load
+  - build
+  - test
+  - show_log_on_failure
+  - cleanup
+
+load_local:
+  stage: load
   script:
-    - ls -la
-    - pytest
+    - docker run --name influxdb_local influxdb:latest -v ./config/influxdb_local:/etc/influxdb/ -p 8086:8086 -p "8088:8088"
+
+load_remote:
+  stage: load
+  script:
+    - docker run --name influxdb_remote influxdb:latest -v ./config/influxdb_local:/etc/influxdb/ -p 8090:8086 -p "8094:8088"
+
+load_telegraf:
+  stage: load
+  script:
+    - docker run --name telegraf telegraf:latest -v ./config/telegraf/:/etc/telegraf/ --link influxdb_remote:influxdb_remote
+
+build_gateway:
+  stage: build
+  script:
+    - docker build -t influx_gateway .
+
+test_gateway:
+  stage: test
+  retry: 2
+  script:
+    - docker rm -vf influx_gateway || true
+    - docker run --name influx_gateway --link influxdb_local --link influxdb_remote influx_gateway
+
+show_log:
+  stage: show_log_on_failure
+  script:
+    - echo "Influx_gateway_log"
+    - docker log influx_gateway
+  when: on_failure
+
+cleanup:
+  stage: cleanup
+  script:
+    - docker rm -vf influxdb_local || true
+    - docker rm -vf influxdb_remote || true
+    - docker rm -vf telegraf || true
+    - docker rm -vf influx_gateway || true
+
