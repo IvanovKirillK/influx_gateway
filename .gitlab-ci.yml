@@ -56,7 +56,7 @@ show_log:
     - docker logs influx_gateway
   when: on_failure
 
-${CI_COMMIT_SHA:0:8}_artifact:
+build_artifact:
   stage: artifact
   script:
     - mkdir -p artifact
@@ -65,10 +65,10 @@ ${CI_COMMIT_SHA:0:8}_artifact:
     - docker cp influx_gateway:/influx_gateway/example/config.json artifact/
     - docker cp influx_gateway:/influx_gateway/README.md artifact/
     - docker cp influx_gateway:/influx_gateway/requirements.txt artifact/
-    - tar -cvf ${CI_COMMIT_SHA:0:8}_influx_gateway.tar -C artifact .
+    - tar -cvf influx_gateway.tar -C artifact .
   artifacts:
     paths:
-      - ${CI_COMMIT_SHA:0:8}_influx_gateway.tar
+      - influx_gateway.tar
 
 cleanup:
   stage: cleanup
