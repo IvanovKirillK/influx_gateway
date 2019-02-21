@@ -68,7 +68,7 @@ ${CI_COMMIT_SHA:0:8}_artifact:
     - tar -cvf ${CI_COMMIT_SHA:0:8}_influx_gateway.tar -C artifact .
   artifacts:
     paths:
-      - $CI_COMMIT_SHA_influx_gateway.tar
+      - ${CI_COMMIT_SHA:0:8}_influx_gateway.tar
 
 cleanup:
   stage: cleanup
