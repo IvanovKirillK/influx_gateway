@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 RUN pip install -r test-requirements.txt
 
 CMD ls -la
-CMD pytest
+#CMD pytest
