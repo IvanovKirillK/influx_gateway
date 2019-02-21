@@ -64,8 +64,7 @@ prepare_artefact:
     - docker cp influx_gateway:/influx_gateway/example/config.json artifact/config.json
     - tar -czvf influx_gateway.tar.gz -C artifact .
   artifacts:
-    paths:
-      - influx_gateway.tar.gz
+    paths: influx_gateway.tar.gz
 
 cleanup:
   stage: cleanup
@@ -76,4 +75,3 @@ cleanup:
     - docker rm -vf influx_gateway || true
     - rm -rf artifact
   when: always
-
