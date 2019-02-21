@@ -7,7 +7,10 @@ stages:
 
 load_local:
   stage: load
+  before_script:
+    - export PATH=$PATH:/usr/bin
   script:
+    - ls -la
     - docker run --name influxdb_local influxdb:latest -v ./config/influxdb_local:/etc/influxdb/ -p 8086:8086 -p "8088:8088"
 
 load_remote:
