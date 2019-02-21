@@ -4,6 +4,7 @@ ENV PYTHONPATH=$PYTHONPATH:$(pwd)
 
 COPY . /influx_gateway
 
+WORKDIR /influx_gateway
 RUN pip install -r requirements.txt
 RUN pip install -r test-requirements.txt
 
