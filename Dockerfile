@@ -1,6 +1,6 @@
 FROM python:3.6
 
-ENV PYTHONPATH /
+ENV PYTHONPATH $PYTHONPATH:$(pwd)
 
 COPY . .
 
