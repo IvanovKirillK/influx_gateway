@@ -10,18 +10,19 @@ load_local:
   before_script:
     - export PATH=$PATH:/usr/bin
   script:
-    - ls -la
-    - hostname
+    - docker rm -vf influxdb_local || true
     - docker run -d  --name influxdb_local -v "$PWD/config/influxdb_local/:/etc/influxdb/" -p "8086:8086" -p "8088:8088"  influxdb:latest
 
 load_remote:
   stage: load
   script:
+    - docker rm -vf influxdb_remote || true
     - docker run -d --name influxdb_remote -v "$PWD/config/influxdb_local/:/etc/influxdb/" -p "8090:8086" -p "8094:8088" influxdb:latest
 
 load_telegraf:
   stage: load
   script:
+    - docker rm -vf telegraf || true
     - docker run  -d --name telegraf -v "$PWD/config/telegraf/:/etc/telegraf/" --link influxdb_remote:influxdb_remote telegraf:latest
 
 build_gateway:

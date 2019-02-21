@@ -11,4 +11,4 @@ RUN pip install -r test-requirements.txt
 WORKDIR /influx_gateway
 CMD ping influxdb_local
 CMD ping influxdb_remote
-#CMD pytest
+CMD pytest
