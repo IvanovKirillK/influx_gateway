@@ -12,17 +12,17 @@ load_local:
   script:
     - ls -la
     - hostname
-    - docker run --name influxdb_local influxdb:latest -v ./config/influxdb_local:/etc/influxdb/ -p 8086:8086 -p "8088:8088"
+    - docker run -v ./config/influxdb_local:/etc/influxdb/ -p "8086:8086" -p "8088:8088" --name influxdb_local influxdb:latest
 
 load_remote:
   stage: load
   script:
-    - docker run --name influxdb_remote influxdb:latest -v ./config/influxdb_local:/etc/influxdb/ -p 8090:8086 -p "8094:8088"
+    - docker run -v ./config/influxdb_local:/etc/influxdb/ -p "8090:8086" -p "8094:8088" --name influxdb_remote influxdb:latest
 
 load_telegraf:
   stage: load
   script:
-    - docker run --name telegraf telegraf:latest -v ./config/telegraf/:/etc/telegraf/ --link influxdb_remote:influxdb_remote
+    - docker run  -v ./config/telegraf/:/etc/telegraf/ --link influxdb_remote:influxdb_remote --name telegraf telegraf:latest
 
 build_gateway:
   stage: build
@@ -34,7 +34,7 @@ test_gateway:
   retry: 2
   script:
     - docker rm -vf influx_gateway || true
-    - docker run --name influx_gateway --link influxdb_local --link influxdb_remote influx_gateway
+    - docker run  --link influxdb_local --link influxdb_remote influx_gateway --name influx_gateway
 
 show_log:
   stage: show_log_on_failure
