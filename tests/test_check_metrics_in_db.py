@@ -27,7 +27,7 @@ def create_db_with_measurments():
 
 def test_no_connection_case():
     metrics_list = ['cpu', 'disk']
-    assert check_metrics_in_db(metrics_list, 'telegraf', 'influxdb_remote', '8080', 'telegraf', 'telegraf', logger) \
+    assert check_metrics_in_db(metrics_list, 'telegraf', 'influxdb_remote', '8081', 'telegraf', 'telegraf', logger) \
            == 'No Connect'
 
 
