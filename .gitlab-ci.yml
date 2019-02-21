@@ -57,7 +57,7 @@ show_log:
   when: on_failure
 
 prepare_artefact:
-  stage: artefact
+  stage: artifact
   script:
     - docker cp influx_gateway:/influx_gateway/influx_gw.py artifact/influx_gw.py
     - docker cp influx_gateway:/influx_gateway/tasks.py artifact/tasks.py
