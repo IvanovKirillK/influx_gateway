@@ -22,7 +22,7 @@ load_remote:
 load_telegraf:
   stage: load
   script:
-    - docker run  -d -v @$PWD/config/telegraf/:/etc/telegraf/" --link influxdb_remote:influxdb_remote --name telegraf telegraf:latest
+    - docker run  -d -v "@$PWD/config/telegraf/:/etc/telegraf/" --link influxdb_remote:influxdb_remote --name telegraf telegraf:latest
 
 build_gateway:
   stage: build
