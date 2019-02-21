@@ -34,7 +34,7 @@ test_gateway:
   retry: 2
   script:
     - docker rm -vf influx_gateway || true
-    - docker run  --name influx_gateway --link influxdb_local --link influxdb_remote influx_gateway influx_gateway
+    - docker run  --name influx_gateway --link influxdb_local --link influxdb_remote influx_gateway
 
 show_log:
   stage: show_log_on_failure
@@ -50,6 +50,5 @@ cleanup:
     - docker rm -vf influxdb_remote || true
     - docker rm -vf telegraf || true
     - docker rm -vf influx_gateway || true
-    - docker rm $(docker ps -a -q)
   when: always
 
