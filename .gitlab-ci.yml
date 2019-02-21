@@ -4,6 +4,7 @@ stages:
   - build
   - test
   - show_log_on_failure
+  - artifact
   - cleanup
 
 pre-cleanup:
@@ -55,6 +56,17 @@ show_log:
     - docker logs influx_gateway
   when: on_failure
 
+prepare_artefact:
+  stage: artefact
+  script:
+    - docker cp influx_gateway:/influx_gateway/influx_gw.py artifact/influx_gw.py
+    - docker cp influx_gateway:/influx_gateway/tasks.py artifact/tasks.py
+    - docker cp influx_gateway:/influx_gateway/example/config.json artifact/config.json
+    - tar -czvf influx_gateway.tar.gz -C artifact .
+  artifacts:
+    paths:
+      - influx_gateway.tar.gz
+
 cleanup:
   stage: cleanup
   script:
@@ -62,5 +74,6 @@ cleanup:
     - docker rm -vf influxdb_remote || true
     - docker rm -vf telegraf || true
     - docker rm -vf influx_gateway || true
+    - rm -rf artifact
   when: always
 
