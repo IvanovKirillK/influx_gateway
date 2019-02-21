@@ -12,17 +12,17 @@ load_local:
   script:
     - ls -la
     - hostname
-    - docker run -d -v "$PWD/config/influxdb_local/:/etc/influxdb/" -p "8086:8086" -p "8088:8088" --name influxdb_local influxdb:latest
+    - docker run -d  --name influxdb_local -v "$PWD/config/influxdb_local/:/etc/influxdb/" -p "8086:8086" -p "8088:8088"  influxdb:latest
 
 load_remote:
   stage: load
   script:
-    - docker run -d -v "$PWD/config/influxdb_local/:/etc/influxdb/" -p "8090:8086" -p "8094:8088" --name influxdb_remote influxdb:latest
+    - docker run -d --name influxdb_remote -v "$PWD/config/influxdb_local/:/etc/influxdb/" -p "8090:8086" -p "8094:8088" influxdb:latest
 
 load_telegraf:
   stage: load
   script:
-    - docker run  -d -v "$PWD/config/telegraf/:/etc/telegraf/" --link influxdb_remote:influxdb_remote --name telegraf telegraf:latest
+    - docker run  -d --name telegraf -v "$PWD/config/telegraf/:/etc/telegraf/" --link influxdb_remote:influxdb_remote telegraf:latest
 
 build_gateway:
   stage: build
@@ -34,7 +34,7 @@ test_gateway:
   retry: 2
   script:
     - docker rm -vf influx_gateway || true
-    - docker run  --link influxdb_local --link influxdb_remote influx_gateway --name influx_gateway
+    - docker run  --name influx_gateway --link influxdb_local --link influxdb_remote influx_gateway influx_gateway
 
 show_log:
   stage: show_log_on_failure
@@ -50,5 +50,6 @@ cleanup:
     - docker rm -vf influxdb_remote || true
     - docker rm -vf telegraf || true
     - docker rm -vf influx_gateway || true
+    - docker rm $(docker ps -a -q)
   when: always
 
