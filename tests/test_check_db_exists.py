@@ -23,8 +23,8 @@ def test_no_data_to_connect_case():
 
 
 def test_db_does_not_exist_case():
-    assert check_db_exists('telegraf', 'influxdb_remote', '8086', 'telegraf1', 'telegraf', logger) is False
+    assert check_db_exists('telegraf', 'influxdb_local', '8086', 'telegraf', 'telegraf', logger) is False
 
 
 def test_db_does_exist_case(create_db):
-    assert check_db_exists('test_db', 'influxdb_remote', '8086', 'telegraf', 'telegraf', logger) is True
+    assert check_db_exists('telegraf', 'influxdb_remote', '8086', 'telegraf', 'telegraf', logger) is True

@@ -1,9 +1,19 @@
 stages:
+  - pre-cleanup
   - load
   - build
   - test
   - show_log_on_failure
   - cleanup
+
+pre-cleanup:
+  stage: pre-cleanup
+  script:
+    - docker rm -vf influxdb_local || true
+    - docker rm -vf influxdb_remote || true
+    - docker rm -vf telegraf || true
+    - docker rm -vf influx_gateway || true
+  when: always
 
 load_local:
   stage: load
