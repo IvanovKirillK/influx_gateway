@@ -34,7 +34,7 @@ test_gateway:
   retry: 1
   script:
     - docker rm -vf influx_gateway || true
-    - docker run  --name influx_gateway --link influxdb_local --link influxdb_remote influx_gateway
+    - docker run  --name influx_gateway --link influxdb_local:influxdb_local --link influxdb_remote:influxdb_remote influx_gateway
 
 show_log:
   stage: show_log_on_failure
