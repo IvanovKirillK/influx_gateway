@@ -7,7 +7,7 @@ logger = logging.getLogger('testlog')
 
 @pytest.fixture()
 def create_db():
-    client = InfluxDBClient('127.0.0.1', '8090', 'telegraf', 'telegraf', 'telegraf')
+    client = InfluxDBClient('influxdb_remote', '8090', 'telegraf', 'telegraf', 'telegraf')
     client.create_database('telegraf')
     yield client
     client.drop_database('telegraf')
