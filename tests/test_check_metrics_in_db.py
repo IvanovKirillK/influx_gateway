@@ -31,7 +31,7 @@ def test_no_connection_case():
            == 'No Connect'
 
 
-def test_no_measurements_in_db():
+def test_no_measurements_in_db(create_db):
     metrics_list = ['cpu', 'disk']
     assert check_metrics_in_db(metrics_list, 'telegraf', 'influxdb_remote', '8090', 'telegraf', 'telegraf', logger) \
            == ['cpu', 'disk']
