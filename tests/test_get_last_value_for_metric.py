@@ -37,8 +37,8 @@ def test_no_data_to_connect_case():
         get_last_value_for_metric('cpu', 'usage_system', 'telegraf', 'influxdb_remote', None, 'telegraf', 'telegraf', None)
 
 
-def test_db_does_not_exist_case():
-    assert get_last_value_for_metric('cpu', 'usage_system', 'telegraf', 'influxdb_local', '8086', 'telegraf', 'telegraf',
+def test_db_does_not_exist_case(create_db):
+    assert get_last_value_for_metric('cpu', 'usage_system', 'telegraf', 'influxdb_remote', '8090', 'telegraf1', 'telegraf',
                                      logger) is False
 
 
