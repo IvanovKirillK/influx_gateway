@@ -12,17 +12,17 @@ load_local:
   script:
     - ls -la
     - hostname
-    - docker run -v ./config/influxdb_local:/etc/influxdb/ -p "8086:8086" -p "8088:8088" --name influxdb_local influxdb:latest
+    - docker run -v config/influxdb_local/:/etc/influxdb/ -p "8086:8086" -p "8088:8088" --name influxdb_local influxdb:latest
 
 load_remote:
   stage: load
   script:
-    - docker run -v ./config/influxdb_local:/etc/influxdb/ -p "8090:8086" -p "8094:8088" --name influxdb_remote influxdb:latest
+    - docker run -v config/influxdb_local/:/etc/influxdb/ -p "8090:8086" -p "8094:8088" --name influxdb_remote influxdb:latest
 
 load_telegraf:
   stage: load
   script:
-    - docker run  -v ./config/telegraf/:/etc/telegraf/ --link influxdb_remote:influxdb_remote --name telegraf telegraf:latest
+    - docker run  -v config/telegraf/:/etc/telegraf/ --link influxdb_remote:influxdb_remote --name telegraf telegraf:latest
 
 build_gateway:
   stage: build
