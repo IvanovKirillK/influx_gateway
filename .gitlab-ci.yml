@@ -59,6 +59,7 @@ show_log:
 prepare_artefact:
   stage: artifact
   script:
+    - mkdir -p artifact
     - docker cp influx_gateway:/influx_gateway/influx_gw.py artifact/influx_gw.py
     - docker cp influx_gateway:/influx_gateway/tasks.py artifact/tasks.py
     - docker cp influx_gateway:/influx_gateway/example/config.json artifact/config.json
