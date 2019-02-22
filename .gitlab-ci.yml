@@ -69,6 +69,9 @@ build_artifact:
   artifacts:
     paths:
       - influx_gateway.tar
+  only:
+    - master
+    - developer
 
 cleanup:
   stage: cleanup

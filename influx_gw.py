@@ -12,13 +12,17 @@ builder = ConfigBuilder()
 # parse config
 if tasks.check_file_exists(config_file):
     config = builder.parse_config(config_file)
+else:
+    print("No config file")
+    sys.exit(1)
 
 # create logger
 logger = logging.getLogger(config.site_name)
 logger.setLevel(logging.DEBUG)
 
 # create file handler which logs messages
-fh = logging.handlers.RotatingFileHandler(config.logpath + config.site_name + '.log', maxBytes=10500000, backupCount=5)
+fh = logging.handlers.RotatingFileHandler(config.logpath + config.site_name + '.log', maxBytes=config.log_size_bytes,
+                                          backupCount=config.log_file_count)
 #fh = logging.FileHandler(config.logpath + config.site_name + '.log')
 fh.setLevel(logging.DEBUG)
 

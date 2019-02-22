@@ -1,6 +1,10 @@
 {
   "site_name": "site_name",
+  "logpath": ".\\",
+  "log_size_bytes": "",
+  "log_file_count": "",
   "allow_create_local_db": "yes",
+
 
   "remote_influx": {
     "dbname": "telegraf",

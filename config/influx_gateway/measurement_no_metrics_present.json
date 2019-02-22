@@ -1,6 +1,9 @@
 {
   "site_name": "akom",
   "allow_create_local_db": "yes",
+  "logpath": "./",
+  "log_size_bytes": "10",
+  "log_file_count": "5",
 
   "remote_influx": {
     "dbname": "telegraf",
