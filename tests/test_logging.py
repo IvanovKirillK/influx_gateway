@@ -15,12 +15,12 @@ def start_influx_gw():
         subprocess.run(["python3.6", "./influx_gw.py", "./config/influx_gateway/metrics_present.json"])
         subprocess.run(["sleep", "10"])
         i += 1
-    yield
+    yield client_remote
     client_remote.drop_database('telegraf')
     client_local.drop_database('telegraf')
 
 
-def test_few_log_files_case():
+def test_few_log_files_case(start_influx_gw):
     log_count = 0
     files = next(os.walk('./'))[2]
     for file in files:
