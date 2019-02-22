@@ -21,8 +21,8 @@ logger = logging.getLogger(config.site_name)
 logger.setLevel(logging.DEBUG)
 
 # create file handler which logs messages
-fh = logging.handlers.RotatingFileHandler(config.logpath + config.site_name + '.log', maxBytes=config.log_size_bytes,
-                                          backupCount=config.log_file_count)
+fh = logging.handlers.RotatingFileHandler(config.logpath + config.site_name + '.log', maxBytes=str(config.log_size_bytes),
+                                          backupCount=str(config.log_file_count))
 #fh = logging.FileHandler(config.logpath + config.site_name + '.log')
 fh.setLevel(logging.DEBUG)
 
