@@ -65,10 +65,10 @@ build_artifact:
     - docker cp influx_gateway:/influx_gateway/example/config.json artifact/
     - docker cp influx_gateway:/influx_gateway/README.md artifact/
     - docker cp influx_gateway:/influx_gateway/requirements.txt artifact/
-    - tar -cvf ${CI_COMMIT_SHORT_SHA}_influx_gateway.tar -C artifact .
+    - tar -cvf influx_gateway.tar -C artifact .
   artifacts:
     paths:
-      - ${CI_COMMIT_SHORT_SHA}_influx_gateway.tar
+      - influx_gateway.tar
   only:
     - master
     - developer
