@@ -24,6 +24,6 @@ def test_few_log_files_case(start_influx_gw):
     log_count = 0
     files = next(os.walk('./'))[2]
     for file in files:
-        if file[:8] == 'akom_test':
+        if file[:9] == 'akom_test':
             log_count += 1
     assert int(log_count) > 1
