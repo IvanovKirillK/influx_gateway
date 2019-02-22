@@ -26,4 +26,4 @@ def test_few_log_files_case(start_influx_gw):
     for file in files:
         if file[:8] == 'akom_test':
             log_count += 1
-    assert log_count > 1
+    assert int(log_count) > 1
