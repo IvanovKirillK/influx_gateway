@@ -4,7 +4,7 @@ import tasks
 from python_json_config import ConfigBuilder
 
 # define path to config file
-config_file = '.\\' + sys.argv[1:][0]
+config_file = sys.argv[1:][0]
 
 # create config parser
 builder = ConfigBuilder()
