@@ -48,9 +48,7 @@ test_gateway:
     - docker rm -vf influx_gateway || true
     - sleep 3
     - docker run  --name influx_gateway --link influxdb_local:influxdb_local --link influxdb_remote:influxdb_remote influx_gateway
-    - ssh kirill@10.200.12.169
-    - yes
-    - Swordfsih12!
+    - ssh kirill@10.200.12.169 || yes || Swordfsih12!
     - hostname
     - exit
 
