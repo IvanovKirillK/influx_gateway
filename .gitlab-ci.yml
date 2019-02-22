@@ -56,7 +56,7 @@ show_log:
     - docker logs influx_gateway
   when: on_failure
 
-$CI_COMMIT_REF_NAME_artifact:
+${CI_COMMIT_REF_NAME}_artifact:
   stage: artifact
   script:
     - mkdir -p artifact
@@ -65,7 +65,7 @@ $CI_COMMIT_REF_NAME_artifact:
     - docker cp influx_gateway:/influx_gateway/example/config.json artifact/
     - docker cp influx_gateway:/influx_gateway/README.md artifact/
     - docker cp influx_gateway:/influx_gateway/requirements.txt artifact/
-    - tar -cvf $CI_COMMIT_REF_NAME_influx_gateway.tar -C artifact .
+    - tar -cvf ${CI_COMMIT_REF_NAME}_influx_gateway.tar -C artifact .
   artifacts:
     paths:
       - $CI_COMMIT_REF_NAME_influx_gateway.tar
