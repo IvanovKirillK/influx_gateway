@@ -48,9 +48,6 @@ test_gateway:
     - docker rm -vf influx_gateway || true
     - sleep 3
     - docker run  --name influx_gateway --link influxdb_local:influxdb_local --link influxdb_remote:influxdb_remote influx_gateway
-    - ssh kirill@10.200.12.169 || yes || Swordfsih12!
-    - hostname
-    - exit
 
 show_log:
   stage: show_log_on_failure
@@ -68,7 +65,7 @@ build_artifact:
     - docker cp influx_gateway:/influx_gateway/example/config.json artifact/
     - docker cp influx_gateway:/influx_gateway/README.md artifact/
     - docker cp influx_gateway:/influx_gateway/requirements.txt artifact/
-    - tar -cvf influx_gateway.tar -C artifact .
+    - tar -cvf influx_gateway.tar -C $CI_COMMIT_REF_NAME_artifact .
   artifacts:
     paths:
       - influx_gateway.tar
