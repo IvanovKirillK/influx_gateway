@@ -163,8 +163,3 @@ for measurement in measurements_list:
                                        local_dbpass, logger)
                 logger.info(
                     'Data set for measurement ' + measurement + ' metric ' + metric + ' was writen to local DB')
-
-
-#some shity comments
-
-
