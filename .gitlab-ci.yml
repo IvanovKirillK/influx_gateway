@@ -14,7 +14,6 @@ pre-run-cleanup:
     - docker rm -vf influxdb_remote || true
     - docker rm -vf telegraf || true
     - docker rm -vf influx_gateway || true
-    - whoami
     - sudo apt-get install -qy dpkg debconf debhelper lintian hashdeep
   when: always
 
@@ -90,7 +89,7 @@ build_deb_artifact:
     - docker cp influx_gateway:/influx_gateway/DEBIAN/cron.d influx-gw/DEBIAN/
     - docker cp influx_gateway:/influx_gateway/DEBIAN/dirs influx-gw/DEBIAN/
     - docker cp influx_gateway:/influx_gateway/DEBIAN/postinst influx-gw/DEBIAN/
-    - md5deep -r influx-gw/usr > ~/influx-gw/DEBIAN/md5sums
+    - md5deep -r influx-gw/usr > influx-gw/DEBIAN/md5sums
     - chmod a+x influx-gw/DEBIAN/postinst
     - fakeroot dpkg-deb --build influx-gw
     - lintian influx-gw.deb
