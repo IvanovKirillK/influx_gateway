@@ -119,6 +119,11 @@ deb_package:
 #    - developer
     - tags
 
+get_tag:
+  stage: artifact
+  script:
+    - git describe --tags `git rev-list --tags --max-count=1`
+
 cleanup:
   stage: cleanup
   script:
