@@ -74,7 +74,7 @@ build_tar_artifact:
     - master
     - developer
 
-build_deb_artifact:
+inflix-gw_1.0.0_all:
   stage: artifact
   script:
     - mkdir influx-gw
@@ -94,6 +94,7 @@ build_deb_artifact:
     - fakeroot dpkg-deb --build influx-gw
     - mv influx-gw.deb influx-gw_1.0.0_all.deb
   artifacts:
+    name: $CI_JOB_NAME
     paths:
       - influx-gw_1.0.0_all.deb
   only:
