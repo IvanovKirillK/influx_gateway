@@ -81,12 +81,12 @@ influx-gw_all.tar:
     - docker cp influx_gateway:/influx_gateway/README.md artifact/
     - docker cp influx_gateway:/influx_gateway/requirements.txt artifact/
     - echo $CI_COMMIT_TAG
-    - tar -cvf influx_gateway_$CI_CI_COMMIT_TAG.tar -C artifact .
+    - tar -cvf influx_gateway_${CI_COMMIT_TAG}.tar -C artifact .
 
   artifacts:
     name: $CI_JOB_NAME
     paths:
-      - influx-gw_1.0.0_all.tar
+      - influx_gateway_${CI_COMMIT_TAG}.tar
   only:
 #    - master
 #    - developer
