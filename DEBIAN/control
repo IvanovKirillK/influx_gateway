@@ -1,0 +1,9 @@
+Package: influx-gw
+Version: 2019.3.27-1
+Provides: influx-gw
+Maintainer: Kirill Ivanov <ivanovkirillk@gmail.com>
+Architecture: all
+Section: misc
+Recommends: python3.6, pip
+Description: Script for influxDB synchronization
+  Script designed to read date from remote InfluxDB and load it to local InfluxDB.

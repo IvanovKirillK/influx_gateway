@@ -1,0 +1,1 @@
+pip3 install -r /usr/local/share/influx-gw/requirements.txt

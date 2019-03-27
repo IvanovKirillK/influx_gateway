@@ -7,13 +7,14 @@ stages:
   - artifact
   - cleanup
 
-pre-cleanup:
+pre-run-cleanup:
   stage: pre-cleanup
   script:
     - docker rm -vf influxdb_local || true
     - docker rm -vf influxdb_remote || true
     - docker rm -vf telegraf || true
     - docker rm -vf influx_gateway || true
+    - apt-get install dpkg debconf debhelper lintian hashdeep
   when: always
 
 load_local:
@@ -56,7 +57,7 @@ show_log:
     - docker logs influx_gateway
   when: on_failure
 
-build_artifact:
+build_tar_artifact:
   stage: artifact
   script:
     - mkdir -p artifact
@@ -73,6 +74,32 @@ build_artifact:
     - master
     - developer
 
+build_deb_artifact:
+  stage: artifact
+  script:
+    - mkdir influx-gw
+    - mkdir influx-gw/DEBIAN
+    - mkdir -p influx-gw/usr/local/share/influx-gw
+    - docker cp influx_gateway:/influx_gateway/influx_gw.py influx-gw/usr/local/share/influx-gw
+    - docker cp influx_gateway:/influx_gateway/tasks.py influx-gw/usr/local/share/influx-gw
+    - docker cp influx_gateway:/influx_gateway/example/config.json influx-gw/usr/local/share/influx-gw
+    - docker cp influx_gateway:/influx_gateway/README.md influx-gw/usr/local/share/influx-gw
+    - docker cp influx_gateway:/influx_gateway/requirements.txt influx-gw/usr/local/share/influx-gw
+    - docker cp influx_gateway:/influx_gateway/DEBIAN/control influx-gw/DEBIAN/
+    - docker cp influx_gateway:/influx_gateway/DEBIAN/cron.d influx-gw/DEBIAN/
+    - docker cp influx_gateway:/influx_gateway/DEBIAN/dirs influx-gw/DEBIAN/
+    - docker cp influx_gateway:/influx_gateway/DEBIAN/postinst influx-gw/DEBIAN/
+    - md5deep -r influx-gw/usr > ~/influx-gw/DEBIAN/md5sums
+    - chmod a+x influx-gw/DEBIAN/postinst
+    - fakeroot dpkg-deb --build influx-gw
+    - lintian influx-gw.deb
+  artifacts:
+    paths:
+      - influx_gateway_${VERSION}_all.deb
+  only:
+    - master
+    - developer
+
 cleanup:
   stage: cleanup
   script:
@@ -81,4 +108,5 @@ cleanup:
     - docker rm -vf telegraf || true
     - docker rm -vf influx_gateway || true
     - rm -rf artifact
+    - rm -rf influx-gw*
   when: always
