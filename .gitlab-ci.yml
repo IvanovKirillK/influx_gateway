@@ -71,7 +71,7 @@ show_log:
   only:
     - tags
 
-build_tar:
+tar_archive:
   stage: artifact
   script:
     - mkdir -p artifact
@@ -91,7 +91,7 @@ build_tar:
 #    - developer
     - tags
 
-build_deb:
+deb_package:
   stage: artifact
   script:
     - mkdir influx-gw
