@@ -57,7 +57,7 @@ show_log:
     - docker logs influx_gateway
   when: on_failure
 
-build_tar_artifact:
+influx-gw_all.tar:
   stage: artifact
   script:
     - mkdir -p artifact
@@ -66,15 +66,18 @@ build_tar_artifact:
     - docker cp influx_gateway:/influx_gateway/example/config.json artifact/
     - docker cp influx_gateway:/influx_gateway/README.md artifact/
     - docker cp influx_gateway:/influx_gateway/requirements.txt artifact/
-    - tar -cvf influx_gateway.tar -C artifact .
+    - echo $CI_COMMIT_TAG
+    - tar -cvf influx_gateway_$CI_CI_COMMIT_TAG.tar -C artifact .
+
   artifacts:
+    name: $CI_JOB_NAME
     paths:
-      - influx_gateway.tar
+      - influx-gw_1.0.0_all.tar
   only:
     - master
     - developer
 
-inflix-gw_1.0.0_all:
+inflix-gw_all.deb:
   stage: artifact
   script:
     - mkdir influx-gw
