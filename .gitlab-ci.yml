@@ -14,7 +14,7 @@ pre-run-cleanup:
     - docker rm -vf influxdb_remote || true
     - docker rm -vf telegraf || true
     - docker rm -vf influx_gateway || true
-    - sudo apt-get install -y dpkg debconf debhelper lintian hashdeep
+    - apt-get install -y dpkg debconf debhelper lintian hashdeep
   when: always
 
 load_local:
