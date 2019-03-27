@@ -92,7 +92,6 @@ build_deb_artifact:
     - md5deep -r influx-gw/usr > influx-gw/DEBIAN/md5sums
     - chmod a+x influx-gw/DEBIAN/postinst
     - fakeroot dpkg-deb --build influx-gw
-    - lintian influx-gw.deb
     - mv influx-gw.deb influx-gw_1.0.0_all.deb
   artifacts:
     paths:
