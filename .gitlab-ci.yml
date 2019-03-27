@@ -96,7 +96,7 @@ build_deb_artifact:
     - mv influx-gw.deb influx-gw_1.0.0_all.deb
   artifacts:
     paths:
-      - influx_gateway_all.deb
+      - influx-gw_1.0.0_all.deb
   only:
     - master
     - developer
