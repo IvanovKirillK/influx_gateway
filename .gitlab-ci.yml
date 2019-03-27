@@ -16,6 +16,8 @@ pre-run-cleanup:
     - docker rm -vf influx_gateway || true
     - sudo apt-get install -qy dpkg debconf debhelper lintian hashdeep
   when: always
+  only:
+    - tags
 
 load_local:
   stage: load
@@ -24,23 +26,31 @@ load_local:
   script:
     - docker rm -vf influxdb_local || true
     - docker run -d  --name influxdb_local -v "$PWD/config/influxdb_local/:/etc/influxdb/" influxdb:latest
+  only:
+    - tags
 
 load_remote:
   stage: load
   script:
     - docker rm -vf influxdb_remote || true
     - docker run -d --name influxdb_remote -v "$PWD/config/influxdb_local/:/etc/influxdb/" influxdb:latest
+  only:
+    - tags
 
 load_telegraf:
   stage: load
   script:
     - docker rm -vf telegraf || true
     - docker run  -d --name telegraf -v "$PWD/config/telegraf/:/etc/telegraf/" --link influxdb_remote:influxdb_remote telegraf:latest
+  only:
+    - tags
 
 build_gateway:
   stage: build
   script:
     - docker build -t influx_gateway .
+  only:
+    - tags
 
 test_gateway:
   stage: test
@@ -49,6 +59,8 @@ test_gateway:
     - docker rm -vf influx_gateway || true
     - sleep 3
     - docker run  --name influx_gateway --link influxdb_local:influxdb_local --link influxdb_remote:influxdb_remote influx_gateway
+  only:
+    - tags
 
 show_log:
   stage: show_log_on_failure
@@ -56,6 +68,8 @@ show_log:
     - echo "Influx_gateway_log"
     - docker logs influx_gateway
   when: on_failure
+  only:
+    - tags
 
 influx-gw_all.tar:
   stage: artifact
@@ -116,3 +130,5 @@ cleanup:
     - rm -rf artifact
     - rm -rf influx-gw*
   when: always
+  only:
+    - tags
