@@ -4,6 +4,6 @@ Provides: influx-gw
 Maintainer: Kirill Ivanov <ivanovkirillk@gmail.com>
 Architecture: all
 Section: misc
-Recommends: python3.6, pip
+Recommends: python3.6, python3-pip
 Description: Script for influxDB synchronization
   Script designed to read date from remote InfluxDB and load it to local InfluxDB.

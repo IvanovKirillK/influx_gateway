@@ -74,8 +74,9 @@ influx-gw_all.tar:
     paths:
       - influx-gw_1.0.0_all.tar
   only:
-    - master
-    - developer
+#    - master
+#    - developer
+    - tags
 
 inflix-gw_all.deb:
   stage: artifact
@@ -101,8 +102,9 @@ inflix-gw_all.deb:
     paths:
       - influx-gw_1.0.0_all.deb
   only:
-    - master
-    - developer
+#    - master
+#    - developer
+    - tags
 
 cleanup:
   stage: cleanup
