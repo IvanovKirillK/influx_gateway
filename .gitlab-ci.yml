@@ -93,9 +93,10 @@ build_deb_artifact:
     - chmod a+x influx-gw/DEBIAN/postinst
     - fakeroot dpkg-deb --build influx-gw
     - lintian influx-gw.deb
+    - mv influx-gw.deb influx-gw_1.0.0_all.deb
   artifacts:
     paths:
-      - influx_gateway_${VERSION}_all.deb
+      - influx_gateway_all.deb
   only:
     - master
     - developer
